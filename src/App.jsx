@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Places from "./components/Places.jsx";
 import { AVAILABLE_PLACES } from "./data.js";
@@ -59,7 +59,8 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
+  
+  const handleRemovePlace = useCallback(function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
@@ -70,7 +71,8 @@ function App() {
       "selectedPlaces",
       JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current))
     );
-  }
+  },[]) // it take 2 parameter like use effect, the second one is for a prop or state value use in the function that make reseting the function
+  // with call back function react insure this inner function no recreated and stores it internally, so our useEffect would not get into a infinite loop
 
   return (
     <>
